@@ -30,6 +30,7 @@ class Barber(db.Model):
     specialization = db.Column(db.String(100))
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    image_url = db.Column(db.String(255))  
 
     appointments = db.relationship('Appointment', backref='barber', lazy=True)
     reviews = db.relationship('Review', back_populates='barber', lazy=True)
@@ -45,7 +46,8 @@ class Barber(db.Model):
             'id': self.id,
             'name': self.name,
             'specialization': self.specialization,
-            'email': self.email
+            'email': self.email,
+            'image_url': self.image_url  # Include the image_url in the dictionary
         }
 
 

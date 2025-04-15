@@ -1,8 +1,8 @@
-"""created new models
+"""Create initial schema with updated barbers table
 
-Revision ID: 076cd9ee6edd
+Revision ID: bfeeac7083b9
 Revises: 
-Create Date: 2025-04-14 03:12:23.757464
+Create Date: 2025-04-15 12:46:30.925567
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '076cd9ee6edd'
+revision = 'bfeeac7083b9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,9 +21,10 @@ def upgrade():
     op.create_table('barbers',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
-    sa.Column('specialization', sa.String(length=100), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password_hash', sa.String(length=128), nullable=False),
+    sa.Column('image_url', sa.String(length=255), nullable=True),
+    sa.Column('specialty', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
@@ -58,11 +59,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('client_id', sa.Integer(), nullable=False),
     sa.Column('barber_id', sa.Integer(), nullable=False),
-    sa.Column('appointment_id', sa.Integer(), nullable=False),
     sa.Column('rating', sa.Integer(), nullable=False),
     sa.Column('comment', sa.Text(), nullable=True),
-    sa.Column('date', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['appointment_id'], ['appointments.id'], name=op.f('fk_reviews_appointment_id_appointments')),
     sa.ForeignKeyConstraint(['barber_id'], ['barbers.id'], name=op.f('fk_reviews_barber_id_barbers')),
     sa.ForeignKeyConstraint(['client_id'], ['clients.id'], name=op.f('fk_reviews_client_id_clients')),
     sa.PrimaryKeyConstraint('id')

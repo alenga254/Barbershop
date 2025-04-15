@@ -1,13 +1,18 @@
 // src/components/BarberCard.jsx
-export default function BarberCard({ barber }) {
-    return (
-      <div className="p-4 shadow-md rounded-xl">
-        <img src="https://via.placeholder.com/100" className="rounded-full" />
-        <h3 className="text-lg font-semibold mt-2">{barber.name}</h3>
-        <p>{barber.specialty || "No specialty"}</p>
-        <p>⭐ 4.8</p>
-        <button className="btn mt-2">Book</button>
-      </div>
-    );
-  }
-  
+function BarberCard({ barber }) {
+  return (
+    <div className="bg-white rounded-2xl shadow p-4">
+      <img
+        src={barber.image_url}
+        alt={barber.name}
+        className="w-full h-48 object-cover rounded-xl mb-4"
+      />
+      <h2 className="text-xl font-semibold">{barber.name}</h2>
+      <p className="text-gray-600">{barber.specialty}</p>
+      <p className="text-sm text-gray-500">{barber.specialization}</p>
+      <p className="text-sm text-gray-500">{barber.email}</p>
+    </div>
+  );
+}
+
+export default BarberCard;

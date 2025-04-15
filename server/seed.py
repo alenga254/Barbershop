@@ -34,19 +34,23 @@ def seed_clients(num_clients=10):
     db.session.bulk_save_objects(clients)
     db.session.commit()
 
-# Seed Barbers
+# Seed Barbers (with image_url)
 def seed_barbers(num_barbers=5):
     barbers = []
     for _ in range(num_barbers):
         name = fake.name()
         specialization = fake.word()
         email = fake.email()
-        password = "password"  
+        password = "password"
         
+        # Generate a fake image URL
+        image_url = fake.image_url()
+
         barber = Barber(
             name=name,
             specialization=specialization,
-            email=email
+            email=email,
+            image_url=image_url  # Add the image URL field
         )
         barber.set_password(password)
         barbers.append(barber)
@@ -100,24 +104,22 @@ def seed_appointments(num_appointments=20):
     db.session.bulk_save_objects(appointments)
     db.session.commit()
 
-# Seed Reviews
+# Seed Reviews (Modified to exclude appointment_id)
 def seed_reviews(num_reviews=30):
     reviews = []
     clients = Client.query.all()
     barbers = Barber.query.all()
-    appointments = Appointment.query.all()
 
     for _ in range(num_reviews):
         client = random.choice(clients)
         barber = random.choice(barbers)
-        appointment = random.choice(appointments)
         rating = random.randint(1, 5)
         comment = fake.sentence()
 
+        # Create Review without appointment_id
         review = Review(
             client_id=client.id,
             barber_id=barber.id,
-            appointment_id=appointment.id,
             rating=rating,
             comment=comment
         )
